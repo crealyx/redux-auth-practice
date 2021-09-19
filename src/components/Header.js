@@ -2,12 +2,22 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <div>
+    <div className="header">
       <h1>Exercise</h1>
-      <Link to="/profile">Profile</Link>
-      <Link to="/cart">Cart</Link>
-      <Link to="/shop">Shop</Link>
-      <Link to="/login">Login</Link>
+      <ul className="navbar">
+        <li>
+          <Link to="/shop">Shop</Link>
+        </li>
+        <li>
+          <Link to="/cart">Cart</Link>
+        </li>
+        <li>
+          <Link to="/profile">Profile</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+      </ul>
     </div>
   );
 };
