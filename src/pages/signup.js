@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { authActions } from '../store/auth-slice';
-const Login = () => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -14,7 +13,7 @@ const Login = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(authActions.signIn({ email: email, password: password }));
+    dispatch(authActions.signUp({ email: email, password: password }));
   };
   return (
     <div>
@@ -23,11 +22,11 @@ const Login = () => {
         <input type="email" onChange={emailChangeHandler} />
         <label htmlFor="password">Enter your password</label>
         <input type="password" onChange={passwordChangeHandler} />
-        <button>Login</button>
-        <Link to="/signup">Create new account</Link>
+        <button>Signup</button>
+        <p>Create new account</p>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
