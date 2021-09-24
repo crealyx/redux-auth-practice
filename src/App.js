@@ -4,13 +4,15 @@ import Profile from './pages/profile';
 import Shop from './pages/shop';
 import Home from './pages/home';
 import Login from './pages/login';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import Signup from './pages/signup';
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  useEffect(() => {}, [isLoggedIn]);
+  console.log(isLoggedIn);
   return (
     <div className="app">
       <Header></Header>
@@ -36,7 +38,7 @@ function App() {
             <Signup></Signup>
           </Route>
           <Route path="/" exact>
-            <Home></Home>
+            {isLoggedIn ? <Redirect to="shop" /> : <Home />}
           </Route>
         </Switch>
       </main>

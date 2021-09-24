@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { authActions } from '../store/auth-slice';
+import { authActions, createAccount } from '../store/auth-slice';
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,9 +11,9 @@ const Signup = () => {
   const passwordChangeHandler = (e) => {
     setPassword(e.target.value);
   };
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(authActions.signUp({ email: email, password: password }));
+    dispatch(createAccount({ email, password }));
   };
   return (
     <div>
@@ -23,7 +23,6 @@ const Signup = () => {
         <label htmlFor="password">Enter your password</label>
         <input type="password" onChange={passwordChangeHandler} />
         <button>Signup</button>
-        <p>Create new account</p>
       </form>
     </div>
   );

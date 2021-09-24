@@ -88,3 +88,7 @@ button {
   justify-content: center;
   align-items: center;
 }
+
+.signup-button {
+  color: black;
+}
