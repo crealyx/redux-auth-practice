@@ -84,7 +84,6 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     idToken: '',
-    currentUser: {},
     isLoggedIn: false,
   },
   reducers: {

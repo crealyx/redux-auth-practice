@@ -1,8 +1,9 @@
-const CartItem = () => {
+const CartItem = (props) => {
   return (
     <div className="cart-item">
-      <p>ItemName</p>
-      <p>ItemQuantity</p>
+      <p>{props.name}</p>
+      <p>{props.price}</p>
+      <p>{props.quantity}</p>
     </div>
   );
 };
