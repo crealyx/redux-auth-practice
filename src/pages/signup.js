@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { authActions, createAccount } from '../store/auth-slice';
+import { unwrapResult } from '@reduxjs/toolkit';
+
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -13,7 +17,16 @@ const Signup = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(createAccount({ email, password }));
+    try {
+      const resultAction = await dispatch(createAccount({ email, password }));
+      const result = unwrapResult(resultAction);
+      dispatch(authActions.logInUser(result.idToken));
+      if (!resultAction.error) {
+        history.push('/shop');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div>

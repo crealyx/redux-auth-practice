@@ -1,16 +1,27 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { changePassword } from '../store/auth-slice';
-
+import { useHistory } from 'react-router';
+import { changePassword, authActions } from '../store/auth-slice';
+import { unwrapResult } from '@reduxjs/toolkit';
 const Profile = () => {
   const [newPassword, setNewPassword] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
   const changePasswordHandler = (e) => {
     setNewPassword(e.target.value);
   };
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(changePassword(newPassword));
+    try {
+      const resultAction = await dispatch(changePassword(newPassword));
+      const result = unwrapResult(resultAction);
+      dispatch(authActions.logInUser(result.idToken));
+      if (!resultAction.error) {
+        history.push('/shop');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div>

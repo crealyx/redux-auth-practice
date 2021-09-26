@@ -8,6 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -19,7 +20,10 @@ const Login = () => {
     try {
       const resultAction = await dispatch(signInUser({ email, password }));
       const result = unwrapResult(resultAction);
-      dispatch(authActions.setIdToken(result.idToken));
+      dispatch(authActions.logInUser(result.idToken));
+      if (!resultAction.error) {
+        history.push('/shop');
+      }
     } catch (err) {
       console.log(err);
     }

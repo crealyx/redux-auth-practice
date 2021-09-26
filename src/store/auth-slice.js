@@ -1,9 +1,4 @@
-import * as firebase from 'firebase/auth';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import '../firebase';
-
-const auth = firebase.getAuth();
-const user = auth.currentUser;
 
 export const changePassword = createAsyncThunk(
   'users/auth/changePassword',
@@ -95,14 +90,29 @@ const authSlice = createSlice({
   reducers: {
     signOutUser(state, action) {
       state.isLoggedIn = false;
+      localStorage.removeItem('idToken');
       state.idToken = null;
     },
-    setIdToken(state, action) {
+    logInUser(state, action) {
+      state.isLoggedIn = true;
+      console.log(action.paylaod);
       state.idToken = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(changePassword.rejected, (state, action) => {
+        console.log(action.payload);
+        console.log('rejected');
+      })
+      .addCase(changePassword.pending, (state, action) => {
+        console.log('pending');
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        localStorage.setItem('idToken', action.payload.idToken);
+        console.log('fulfilled');
+        console.log(action.payload);
+      })
       .addCase(createAccount.rejected, (state, action) => {
         console.log('rejected');
       })
@@ -110,6 +120,9 @@ const authSlice = createSlice({
         console.log('pending');
       })
       .addCase(createAccount.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
+        state.idToken = action.payload.idToken;
+        localStorage.setItem('idToken', action.payload.idToken);
         console.log('fulfilled');
         console.log(action.payload);
       })
@@ -123,6 +136,7 @@ const authSlice = createSlice({
       .addCase(signInUser.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.idToken = action.payload.idToken;
+        localStorage.setItem('idToken', action.payload.idToken);
         console.log('fulfilled');
       });
   },
