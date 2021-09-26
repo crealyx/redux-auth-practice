@@ -1,26 +1,33 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authActions, signIn } from '../store/auth-slice';
+import { authActions, signInUser } from '../store/auth-slice';
 import { useHistory } from 'react-router-dom';
+import { unwrapResult } from '@reduxjs/toolkit';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const history = useHistory();
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
   };
   const passwordChangeHandler = (e) => {
     setPassword(e.target.value);
   };
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch(signIn({ email, password }));
+    try {
+      const resultAction = await dispatch(signInUser({ email, password }));
+      const result = unwrapResult(resultAction);
+      dispatch(authActions.setIdToken(result.idToken));
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div>
       <form onSubmit={submitHandler}>
+        <h2>Login</h2>
         <label htmlFor="email">Enter your e-mail</label>
         <input type="email" onChange={emailChangeHandler} />
         <label htmlFor="password">Enter your password</label>

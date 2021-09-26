@@ -40,6 +40,9 @@ function App() {
           <Route path="/" exact>
             {isLoggedIn ? <Redirect to="shop" /> : <Home />}
           </Route>
+          <Route path="*">
+            <Redirect to="/" />
+          </Route>
         </Switch>
       </main>
     </div>

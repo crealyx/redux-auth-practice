@@ -18,6 +18,7 @@ const Signup = () => {
   return (
     <div>
       <form onSubmit={submitHandler}>
+        <h2>Signup</h2>
         <label htmlFor="email">Enter your e-mail</label>
         <input type="email" onChange={emailChangeHandler} />
         <label htmlFor="password">Enter your password</label>

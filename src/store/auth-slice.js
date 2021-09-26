@@ -1,52 +1,106 @@
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from 'firebase/auth';
+import * as firebase from 'firebase/auth';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import '../firebase';
-const auth = getAuth();
 
+const auth = firebase.getAuth();
+const user = auth.currentUser;
+
+export const changePassword = createAsyncThunk(
+  'users/auth/changePassword',
+  async (newPassword, thunkApi) => {
+    const authState = thunkApi.getState().auth;
+    const response = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.REACT_APP_API_KEY}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          idToken: authState.idToken,
+          password: newPassword,
+          returnSecureToken: true,
+        }),
+        header: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      return thunkApi.rejectWithValue(data.error.message);
+    } else {
+      return data;
+    }
+  }
+);
 export const createAccount = createAsyncThunk(
   'users/auth/signUp',
-  ({ email, password }) => {
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+  async ({ email, password }, thunkApi) => {
+    const response = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+        header: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      return thunkApi.rejectWithValue(data.error.message);
+    } else {
+      return data;
+    }
   }
 );
-export const signIn = createAsyncThunk(
+export const signInUser = createAsyncThunk(
   'users/auth/signIn',
-  ({ email, password }) => {
-    return signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log('user');
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+  async ({ email, password }, thunkApi) => {
+    try {
+      const response = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_API_KEY}`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            returnSecureToken: true,
+          }),
+          header: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data);
+        return thunkApi.rejectWithValue(data.error.message);
+      }
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
+    }
   }
 );
-
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    currentUser: '',
+    idToken: '',
+    currentUser: {},
     isLoggedIn: false,
   },
-  reducers: {},
+  reducers: {
+    signOutUser(state, action) {
+      state.isLoggedIn = false;
+      state.idToken = null;
+    },
+    setIdToken(state, action) {
+      state.idToken = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createAccount.rejected, (state, action) => {
@@ -57,16 +111,18 @@ const authSlice = createSlice({
       })
       .addCase(createAccount.fulfilled, (state, action) => {
         console.log('fulfilled');
+        console.log(action.payload);
       })
-      .addCase(signIn.rejected, (state, action) => {
+      .addCase(signInUser.rejected, (state, action) => {
         console.log('rejected');
+        console.log(`payloadError:${action.payload}`);
       })
-      .addCase(signIn.pending, (state, action) => {
+      .addCase(signInUser.pending, (state, action) => {
         console.log('pending');
       })
-      .addCase(signIn.fulfilled, (state, action) => {
+      .addCase(signInUser.fulfilled, (state, action) => {
         state.isLoggedIn = true;
-        console.log(action);
+        state.idToken = action.payload.idToken;
         console.log('fulfilled');
       });
   },
