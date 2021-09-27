@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { authActions, createAccount } from '../store/auth-slice';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -7,8 +7,12 @@ import { unwrapResult } from '@reduxjs/toolkit';
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const errorState = useSelector((state) => state.auth.errorMessage);
   const dispatch = useDispatch();
   const history = useHistory();
+  useEffect(() => {
+    dispatch(authActions.resetError());
+  }, [dispatch]);
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -32,9 +36,10 @@ const Signup = () => {
     <div>
       <form onSubmit={submitHandler}>
         <h2>Signup</h2>
-        <label htmlFor="email">Enter your e-mail</label>
+        <p className="error">{errorState}</p>
+        <label htmlFor="email">Create your e-mail</label>
         <input type="email" onChange={emailChangeHandler} />
-        <label htmlFor="password">Enter your password</label>
+        <label htmlFor="password">Create your password</label>
         <input type="password" onChange={passwordChangeHandler} />
         <button>Signup</button>
       </form>

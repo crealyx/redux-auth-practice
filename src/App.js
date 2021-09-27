@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect } from 'react';
 import Signup from './pages/signup';
 import { authActions } from './store/auth-slice';
-
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();

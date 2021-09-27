@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import DUMMY_PRODUCTS from '../dummy_products';
-import { cartActions, sendCart } from '../store/cart-slice';
+import { cartActions } from '../store/cart-slice';
 const Shop = () => {
   const dispatch = useDispatch();
   const addToCartHandler = (product) => {

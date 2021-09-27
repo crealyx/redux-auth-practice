@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const sendCart = createAsyncThunk(
   'cart/sendCart',
-  async (cart, thunkApi) => {
+  async (_, thunkApi) => {
     const cartState = thunkApi.getState().cart;
     try {
       const response = await fetch(
@@ -25,27 +25,32 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     items: [],
-    totalQuantity: 0,
     changed: false,
   },
   reducers: {
     replaceCart(state, action) {
-      state.totalQuantity = action.payload.totalQuantity;
-      state.items = action.payload.items;
+      state.items = action.payload;
     },
     addItemToCart(state, action) {
       const newItem = action.payload;
       const matchedItem = state.items.find((item) => newItem.id === item.id);
-      console.log(matchedItem);
       if (matchedItem) {
         matchedItem.quantity++;
         matchedItem.totalPrice += matchedItem.price;
       } else {
         state.items.push(newItem);
       }
-      state.totalQuantity++;
     },
-    removeItemFromCart(state, action) {},
+    removeItemFromCart(state, action) {
+      const id = action.payload;
+      const matchedItem = state.items.find((item) => item.id === id);
+      if (matchedItem.quantity === 1) {
+        state.items = state.items.filter((item) => item.id !== id);
+      } else {
+        matchedItem.quantity--;
+        matchedItem.totalPrice = matchedItem.totalPrice - matchedItem.price;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase((sendCart.rejected = (state, actions) => {}));

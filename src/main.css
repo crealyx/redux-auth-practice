@@ -3,11 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 main {
   margin: 20px;
 }
-
+body {
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 1px;
+}
 .header {
   display: flex;
   background-color: rgb(0, 0, 0);
@@ -90,5 +93,11 @@ button {
 }
 
 .signup-button {
-  color: black;
+  margin-top: 20px;
+  color: rgb(1, 62, 80);
+}
+
+.error {
+  margin-top: 20px;
+  color: red;
 }

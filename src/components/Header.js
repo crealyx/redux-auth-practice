@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Fragment } from 'react';
-import { authActions, signOutUser } from '../store/auth-slice';
+import { authActions } from '../store/auth-slice';
 const Header = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -10,7 +10,7 @@ const Header = () => {
   };
   return (
     <div className="header">
-      <h1>Exercise</h1>
+      <h1>Redux Exercise</h1>
       <ul className="navbar">
         {isLoggedIn ? (
           <Fragment>

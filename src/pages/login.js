@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { authActions, signInUser } from '../store/auth-slice';
 import { useHistory } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 const Login = () => {
+  const errorState = useSelector((state) => state.auth.errorMessage);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  useEffect(() => {
+    dispatch(authActions.resetError());
+  }, [dispatch]);
   const emailChangeHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -24,14 +29,13 @@ const Login = () => {
       if (!resultAction.error) {
         history.push('/shop');
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   return (
     <div>
-      <form onSubmit={submitHandler}>
+      <form className="login-form" onSubmit={submitHandler}>
         <h2>Login</h2>
+        <p className="error">{errorState}</p>
         <label htmlFor="email">Enter your e-mail</label>
         <input type="email" onChange={emailChangeHandler} />
         <label htmlFor="password">Enter your password</label>

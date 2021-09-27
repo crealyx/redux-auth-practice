@@ -2,27 +2,40 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CartItem from '../components/CartItem';
-import { sendCart } from '../store/cart-slice';
+import { cartActions, sendCart } from '../store/cart-slice';
 const Cart = () => {
+  const [totalAmount, setTotalAmount] = useState(0);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  console.log(cart);
+
+  let totalPrice = 0;
+
+  for (const item of cart.items) {
+    totalPrice += item.totalPrice;
+  }
+  const checkoutHandler = () => {
+    dispatch(cartActions.replaceCart([]));
+    dispatch(sendCart());
+  };
+
   useEffect(() => {
-    dispatch(sendCart(cart.items));
-  }, [cart.items, dispatch]);
+    setTotalAmount(totalPrice);
+    dispatch(sendCart());
+  }, [cart, dispatch, totalPrice]);
 
   return (
     <div className="cart">
       {cart.items.map((item) => (
         <CartItem
           key={item.id}
+          id={item.id}
           name={item.name}
           price={item.price}
           quantity={item.quantity}
         ></CartItem>
       ))}
-      <p>Total Amount:{totalPrice}</p>
-      <button>Checkout</button>
+      <p>Total Amount:{totalAmount}$</p>
+      <button onClick={checkoutHandler}>Checkout</button>
     </div>
   );
 };

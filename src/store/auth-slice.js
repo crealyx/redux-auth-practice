@@ -85,6 +85,7 @@ const authSlice = createSlice({
   initialState: {
     idToken: '',
     isLoggedIn: false,
+    errorMessage: '',
   },
   reducers: {
     signOutUser(state, action) {
@@ -94,49 +95,38 @@ const authSlice = createSlice({
     },
     logInUser(state, action) {
       state.isLoggedIn = true;
-      console.log(action.paylaod);
       state.idToken = action.payload;
+    },
+    resetError(state, action) {
+      state.errorMessage = '';
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(changePassword.rejected, (state, action) => {
-        console.log(action.payload);
-        console.log('rejected');
+        state.errorMessage = action.payload;
       })
-      .addCase(changePassword.pending, (state, action) => {
-        console.log('pending');
-      })
+      .addCase(changePassword.pending, (state, action) => {})
       .addCase(changePassword.fulfilled, (state, action) => {
         localStorage.setItem('idToken', action.payload.idToken);
-        console.log('fulfilled');
-        console.log(action.payload);
       })
       .addCase(createAccount.rejected, (state, action) => {
-        console.log('rejected');
+        state.errorMessage = action.payload;
       })
-      .addCase(createAccount.pending, (state, action) => {
-        console.log('pending');
-      })
+      .addCase(createAccount.pending, (state, action) => {})
       .addCase(createAccount.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.idToken = action.payload.idToken;
         localStorage.setItem('idToken', action.payload.idToken);
-        console.log('fulfilled');
-        console.log(action.payload);
       })
       .addCase(signInUser.rejected, (state, action) => {
-        console.log('rejected');
-        console.log(`payloadError:${action.payload}`);
+        state.errorMessage = action.payload;
       })
-      .addCase(signInUser.pending, (state, action) => {
-        console.log('pending');
-      })
+      .addCase(signInUser.pending, (state, action) => {})
       .addCase(signInUser.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.idToken = action.payload.idToken;
         localStorage.setItem('idToken', action.payload.idToken);
-        console.log('fulfilled');
       });
   },
 });
