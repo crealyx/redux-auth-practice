@@ -25,16 +25,15 @@ const Cart = () => {
 
   return (
     <div className="cart">
-      {!cartItems &&
-        cartItems.map((item) => (
-          <CartItem
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            price={item.price}
-            quantity={item.quantity}
-          ></CartItem>
-        ))}
+      {cartItems.map((item) => (
+        <CartItem
+          key={item.id}
+          id={item.id}
+          name={item.name}
+          price={item.price}
+          quantity={item.quantity}
+        ></CartItem>
+      ))}
       <p>Total Amount:{totalAmount}$</p>
       <button onClick={checkoutHandler}>Checkout</button>
     </div>
