@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from '@reduxjs/toolkit';
 
 export const changePassword = createAsyncThunk(
   'users/auth/changePassword',
@@ -80,13 +84,14 @@ export const signInUser = createAsyncThunk(
     }
   }
 );
+export const initialState = {
+  idToken: '',
+  isLoggedIn: false,
+  errorMessage: '',
+};
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    idToken: '',
-    isLoggedIn: false,
-    errorMessage: '',
-  },
+  initialState,
   reducers: {
     signOutUser(state, action) {
       state.isLoggedIn = false;
@@ -130,7 +135,11 @@ const authSlice = createSlice({
       });
   },
 });
-
 export const authActions = authSlice.actions;
 
+export const selectToken = (state) => state.auth.idToken;
+export const selectIsLoggedIn = createSelector(
+  [selectToken],
+  (idToken) => idToken !== ''
+);
 export default authSlice;

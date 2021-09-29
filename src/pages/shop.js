@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import DUMMY_PRODUCTS from '../dummy_products';
-import { cartActions } from '../store/cart-slice';
+import { cartActions } from '../store/cartSlice';
 const Shop = () => {
   const dispatch = useDispatch();
   const addToCartHandler = (product) => {

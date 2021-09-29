@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authActions, signInUser } from '../store/auth-slice';
+import { authActions, signInUser } from '../store/authSlice';
 import { useHistory } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
@@ -37,9 +37,13 @@ const Login = () => {
         <h2>Login</h2>
         <p className="error">{errorState}</p>
         <label htmlFor="email">Enter your e-mail</label>
-        <input type="email" onChange={emailChangeHandler} />
+        <input aria-label="email" type="email" onChange={emailChangeHandler} />
         <label htmlFor="password">Enter your password</label>
-        <input type="password" onChange={passwordChangeHandler} />
+        <input
+          aria-label="password"
+          type="password"
+          onChange={passwordChangeHandler}
+        />
         <button>Login</button>
         <Link to="/signup" className="signup-button">
           Create new account

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Fragment } from 'react';
-import { authActions } from '../store/auth-slice';
+import { authActions } from '../store/authSlice';
 const Header = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -9,7 +9,7 @@ const Header = () => {
     dispatch(authActions.signOutUser());
   };
   return (
-    <div className="header">
+    <header className="header">
       <h1>Redux Exercise</h1>
       <ul className="navbar">
         {isLoggedIn ? (
@@ -35,7 +35,7 @@ const Header = () => {
           </li>
         )}
       </ul>
-    </div>
+    </header>
   );
 };
 

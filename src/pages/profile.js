@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { changePassword, authActions } from '../store/auth-slice';
+import { changePassword, authActions } from '../store/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 const Profile = () => {
   const [newPassword, setNewPassword] = useState('');
   const dispatch = useDispatch();
-  const errorState = useSelector((state) => state.auth.errorMessage);
+  const authState = useSelector((state) => state.auth);
   const history = useHistory();
   const changePasswordHandler = (e) => {
     setNewPassword(e.target.value);
@@ -30,7 +30,7 @@ const Profile = () => {
   return (
     <div>
       <form onSubmit={submitHandler}>
-        <p className="error">{errorState}</p>
+        <p className="error">{authState.errorMessage}</p>
         <label htmlFor="password">New Password</label>
         <input type="text" onChange={changePasswordHandler} />
         <button type="submit">Change Password</button>

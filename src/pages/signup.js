@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { authActions, createAccount } from '../store/auth-slice';
+import { authActions, createAccount } from '../store/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 const Signup = () => {
