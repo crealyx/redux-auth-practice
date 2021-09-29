@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/redux-auth-practice/static/css/main.5ea4ed1e.chunk.css",
+    "main.js": "/redux-auth-practice/static/js/main.27e3f478.chunk.js",
+    "main.js.map": "/redux-auth-practice/static/js/main.27e3f478.chunk.js.map",
+    "runtime-main.js": "/redux-auth-practice/static/js/runtime-main.d2eb549c.js",
+    "runtime-main.js.map": "/redux-auth-practice/static/js/runtime-main.d2eb549c.js.map",
+    "static/js/2.41ba2da9.chunk.js": "/redux-auth-practice/static/js/2.41ba2da9.chunk.js",
+    "static/js/2.41ba2da9.chunk.js.map": "/redux-auth-practice/static/js/2.41ba2da9.chunk.js.map",
+    "index.html": "/redux-auth-practice/index.html",
+    "static/css/main.5ea4ed1e.chunk.css.map": "/redux-auth-practice/static/css/main.5ea4ed1e.chunk.css.map",
+    "static/js/2.41ba2da9.chunk.js.LICENSE.txt": "/redux-auth-practice/static/js/2.41ba2da9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d2eb549c.js",
+    "static/js/2.41ba2da9.chunk.js",
+    "static/css/main.5ea4ed1e.chunk.css",
+    "static/js/main.27e3f478.chunk.js"
+  ]
+}
