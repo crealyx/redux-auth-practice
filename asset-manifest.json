@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/redux-auth-practice/static/css/main.5ea4ed1e.chunk.css",
-    "main.js": "/redux-auth-practice/static/js/main.27e3f478.chunk.js",
-    "main.js.map": "/redux-auth-practice/static/js/main.27e3f478.chunk.js.map",
+    "main.js": "/redux-auth-practice/static/js/main.bfd142e9.chunk.js",
+    "main.js.map": "/redux-auth-practice/static/js/main.bfd142e9.chunk.js.map",
     "runtime-main.js": "/redux-auth-practice/static/js/runtime-main.d2eb549c.js",
     "runtime-main.js.map": "/redux-auth-practice/static/js/runtime-main.d2eb549c.js.map",
     "static/js/2.41ba2da9.chunk.js": "/redux-auth-practice/static/js/2.41ba2da9.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.d2eb549c.js",
     "static/js/2.41ba2da9.chunk.js",
     "static/css/main.5ea4ed1e.chunk.css",
-    "static/js/main.27e3f478.chunk.js"
+    "static/js/main.bfd142e9.chunk.js"
   ]
 }
